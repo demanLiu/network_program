@@ -5,6 +5,7 @@
 #include "string.h"     //bzero
 #include <unistd.h>     //close socket
 #include "stdlib.h"      //exit
+#include <sys/wait.h>
 #define SERVER_PORT 13
 #define BUFFER_SIZE 1024
 #define MSG_SIZE 100
@@ -64,7 +65,7 @@ int main()
             printf("Send msg Failed\n");
             break;
         }
-        sleep(30);
+        //sleep(5);
         //关闭与客户端的连接
         close(new_socket_fd);
         //退出子进程
@@ -72,7 +73,9 @@ int main()
 
       }else if( child_pid > 0){
         close(new_socket_fd);
-        printf("i am parent process");
+        pid_t  pc =  wait(NULL);
+        printf("i am parent process. ");
+        printf("child_pid : %d has exited\n",pc);
       }else{
         printf("create child_pid Failed");
       }
